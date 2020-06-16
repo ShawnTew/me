@@ -1,1 +1,2 @@
 TODO: Reflect on what you learned this week and what is still unclear.
+I learnt some basic rules of coding such as creating lists, certain things need to be made into str(), how to concatenate, basic addition and modulo division. I am still a little unclear on why certain things dont work in the .append() brackets.
