@@ -12,7 +12,12 @@ def loop_ranger(start, stop=None, step=1):
     The look up the docs for range(), you can answer this with just the range 
     function, but we'd like you to do it the long way, probably using a loop.
     """
-    return None
+    loop_list = []
+    x= start
+    while x < stop:
+        loop_list.append(x)
+        x = x + step    
+    return loop_list
 
 
 def lone_ranger(start, stop, step):
@@ -20,7 +25,12 @@ def lone_ranger(start, stop, step):
 
     Look up the docs for range() and wrap it in a 1:1 way
     """
-    return None
+    the_numbers = []
+    x = start
+    while x < stop:
+        the_numbers.append(x)
+        x = x + step
+    return the_numbers
 
 
 def two_step_ranger(start, stop):
@@ -29,7 +39,12 @@ def two_step_ranger(start, stop):
     Sometimes you want to hide complexity.
     Make a range function that always has a step size of 2
     """
-    return None
+    the_numbers_2 = []
+    x = start
+    while x < stop:
+        the_numbers_2.append(x)
+        x = x + 2
+    return the_numbers_2
 
 
 def stubborn_asker(low, high):
@@ -40,7 +55,18 @@ def stubborn_asker(low, high):
 
     Look up the docs for input
     """
-    return None
+    stubborn_asker_number = int(input('enter number: '))
+    while not(low < stubborn_asker_number < high):
+        if stubborn_asker_number < low:
+            print ('enter higher number')
+        if stubborn_asker_number > high:
+            print ('enter lower number')
+        if stubborn_asker_number > low and stubborn_asker_number < high:
+            print('good choice')
+            return stubborn_asker_number
+        stubborn_asker_number = int(input('enter number: '))
+    return stubborn_asker_number
+
 
 
 def not_number_rejector(message):
@@ -50,7 +76,13 @@ def not_number_rejector(message):
     (e.g. "cow", "six", "8!") then throw it out and ask for an actual number.
     When you do get a number, return it.
     """
-    return None
+    while True:
+        try:
+            input_number = int(input(message))
+            print("Thanks {} looks good .".format(input_number))
+            return input_number
+        except Exception as e:
+            print("try again ({}))".format(e))
 
 
 def super_asker(low, high):
@@ -61,7 +93,17 @@ def super_asker(low, high):
     Try to call at least one of the other functions to minimise the
     amount of code.
     """
-    return None
+    stubborn_asker_number = not_number_rejector('enter number: ')
+    while not(low < stubborn_asker_number < high):
+        if stubborn_asker_number < low:
+            print ('enter higher number')
+        if stubborn_asker_number > high:
+            print ('enter lower number')
+        if stubborn_asker_number > low and stubborn_asker_number < high:
+            print('good choice')
+            return stubborn_asker_number
+        stubborn_asker_number = not_number_rejector('enter number: ')
+    return stubborn_asker_number
 
 
 if __name__ == "__main__":
