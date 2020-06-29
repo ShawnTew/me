@@ -34,16 +34,21 @@ def get_some_details():
          dictionaries.
     """
     json_data = open(LOCAL + "/lazyduck.json").read()
-
+    
     data = json.loads(json_data)
-    return {"lastName": None, "password": None, "postcodePlusID": None}
+    person = data["results"][0]
+    return {
+        "lastName": person["name"]["last"],
+        "password": person["login"]["password"],
+        "postcodePlusID": person["location"]["postcode"] + int(person["id"]["value"])
+          }
 
 
 def wordy_pyramid():
     """Make a pyramid out of real words.
 
     There is a random word generator here:
-    http://api.wordnik.com/v4/words.json/randomWords?api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5&minLength=10&maxLength=10&limit=1
+    https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength=20
     The arguments that the generator takes is the minLength and maxLength of the word
     as well as the limit, which is the the number of words. 
     Visit the above link as an example.
@@ -74,7 +79,18 @@ def wordy_pyramid():
     ]
     TIP: to add an argument to a URL, use: ?argName=argVal e.g. &minLength=
     """
-    pass
+    word_pyramid = []
+    i = 3
+    for i in range (3, 20, 2):
+        response = requests.get(f"https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength={i}")
+        print(response.text)
+        word_pyramid.append(response.text)
+    for i in range (20, 2, -2):
+        response = requests.get(f"https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength={i}")
+        print(response.text)
+        word_pyramid.append(response.text)
+    return word_pyramid
+    
 
 
 def pokedex(low=1, high=5):
@@ -93,11 +109,24 @@ def pokedex(low=1, high=5):
     """
     template = "https://pokeapi.co/api/v2/pokemon/{id}"
 
-    url = template.format(id=5)
-    r = requests.get(url)
-    if r.status_code is 200:
-        the_json = json.loads(r.text)
-    return {"name": None, "weight": None, "height": None}
+    tallest = 0
+    pokemon = []
+    for i in range(low, high):
+        url = template.format(id=i)
+        r = requests.get(url)
+        if r.status_code is 200:
+            the_json = json.loads(r.text)
+            pokemon.append(the_json)
+
+    for p in pokemon:
+        heightCurrent = p["height"]
+        if heightCurrent > tallest: 
+            tallest = heightCurrent
+            name = p["name"]
+            weight = p["weight"]
+            height = p["height"]
+
+    return {"name": name, "weight": weight, "height": height}
 
 
 def diarist():
