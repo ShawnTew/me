@@ -91,7 +91,7 @@ def wordy_pyramid():
         word_pyramid.append(response.text)
     return word_pyramid
     
-
+ 
 
 def pokedex(low=1, high=5):
     """ Return the name, height and weight of the tallest pokemon in the range low to high.
@@ -143,7 +143,19 @@ def diarist():
          the test will have nothing to look at.
     TIP: this might come in handy if you need to hack a 3d print file in the future.
     """
-    pass
+    mode = "r"  # from the docs
+    file_path = "week4\Trispokedovetiles(laser).gcode"
+    lasers = open(file_path, mode)
+    clicker = 0
+    for line in lasers.readlines():        
+        if "M10 P1" in line: 
+            clicker += 1
+    mode = "w"  # from the docs
+    file_path = "week4/lasers.pew"
+    time_capsule = open(file_path, mode)
+    time_capsule.write(str(clicker))
+    time_capsule.close()
+    
 
 
 if __name__ == "__main__":
