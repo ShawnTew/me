@@ -15,6 +15,7 @@ are on top of it, take these comments out. Others won't have comments and
 you'll need to figure out for yourself what to do.
 """
 
+import math
 
 # This is a terrible function. The rest of the functions in this file do a
 # much better job of what it's trying to do. Once you've has a little look,
@@ -49,7 +50,12 @@ def do_bunch_of_bad_things():
 # return a list of countdown messages, much like in the bad function above.
 # It should say something different in the last message.
 def countdown(message, start, stop, completion_message):
-    pass
+    
+    for i in range(start, stop -1, -1):
+        countdown_message = message + " " + str(i)
+        print (countdown_message)
+    print(completion_message)
+    
 
 
 # TRIANGLES
@@ -62,32 +68,39 @@ def countdown(message, start, stop, completion_message):
 # The stub functions are made for you, and each one is tested, so this should
 # hand hold quite nicely.
 def calculate_hypotenuse(base, height):
-    pass
+    hypotenuse = math.sqrt(base ** 2 + height ** 2)
+    return hypotenuse
 
 
 def calculate_area(base, height):
-    pass
+    area = (base*height) / 2
+    return area  
 
 
 def calculate_perimeter(base, height):
-    pass
+    hypotenuse = math.sqrt(base ** 2 + height ** 2)
+    perimiter = (base + height + hypotenuse)
+    return perimiter
 
 
 def calculate_aspect(base, height):
-    pass
+    aspect = math.atan(height / base)
+    return aspect
+    
 
 
 # Make sure you reuse the functions you've already got
 # Don't reinvent the wheel
 def get_triangle_facts(base, height, units="mm"):
     return {
-        "area": None,
-        "perimeter": None,
-        "height": None,
-        "base": None,
-        "hypotenuse": None,
+        "area": area = (base*height) / 2,
+        "perimeter": hypotenuse = math.sqrt(base ** 2 + height ** 2)
+    perimiter = (base + height + hypotenuse),
+        "height": height,
+        "base": base,
+        "hypotenuse": hypotenuse = math.sqrt(base ** 2 + height ** 2),
         "aspect": None,
-        "units": None,
+        "units": units,
     }
 
 
