@@ -210,9 +210,9 @@ def random_filler_text(number_of_words=200):
     my_dict = make_filler_text_dictionary()
     words = []
     for i in range(number_of_words):
-        wordlength = random.randint(3, 7)
-        wordindex = random.randint(0, 2)
-        words.append(my_dict[wordlength][wordindex])
+        lengthofword = random.randint(3, 7)
+        index = random.randint(0, 2)
+        words.append(my_dict[lengthofword][index])
 
     return " ".join(words)
 
@@ -234,9 +234,30 @@ def fast_filler(number_of_words=200):
     import os
     import json
 
-    fname = "dict_racey.json"
+    file_path = "dict_racey.json"
+    if os.path.isfile(file_path):
+        with open(file_path, "r") as Fileload:
+            my_dict = json.load(Fileload)
+    else: 
+        my_dict = make_filler_text_dictionary()
+        with open(file_path, "w") as Filedump:
+            json.dump(my_dict, Filedump)
+    
+    Datas = []
 
-    return None
+    for i in range(number_of_words):
+        lengthofword = random.randint(3, 7)
+        index = random.randint(0, 2)
+        try:
+            Datas.append(my_dict[lengthofword][index])
+        except KeyError:
+            Datas.append(my_dict[str(lengthofword)][index])
+        
+    final = " ".join(Datas)
+    final2 = final.capitalize() + "."
+    return final2
+        
+
 
 
 if __name__ == "__main__":
