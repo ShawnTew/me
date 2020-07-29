@@ -187,12 +187,11 @@ def make_filler_text_dictionary():
 
     url = "https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength="
     wd = {}
-    for i in range(4,9):
+    for i in range(3,8):
         wd[i] = []
-        for j in range(4):
-            r = requests.get(url + i)
-        wd[i].append(r.text)
-        
+        for j in range(3):
+            r = requests.get(url + str(i))
+            wd[i].append(r.text)
     return wd
 
 
@@ -209,6 +208,11 @@ def random_filler_text(number_of_words=200):
     import random
 
     my_dict = make_filler_text_dictionary()
+    words = []
+    for i in range(number_of_words):
+        wordlength = random.randint(3, 7)
+        wordindex = random.randint(0, 2)
+        words.append(my_dict[wordlength][wordindex])
 
     return " ".join(words)
 
