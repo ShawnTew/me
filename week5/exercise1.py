@@ -84,8 +84,12 @@ def calculate_perimeter(base, height):
 
 
 def calculate_aspect(base, height):
-    aspect = math.atan(height / base)
-    return aspect
+    if height > base:
+        return "tall"
+    elif height < base:
+        return "wide"
+    else:
+        return "equal"
     
 
 
@@ -93,13 +97,12 @@ def calculate_aspect(base, height):
 # Don't reinvent the wheel
 def get_triangle_facts(base, height, units="mm"):
     return {
-        "area": (base*height) / 2,
-        "perimeter": hypotenuse = math.sqrt(base ** 2 + height ** 2)
-    perimiter = (base + height + hypotenuse),
+        "area": calculate_area(base, height),
+        "perimeter": calculate_perimeter(base, height),
         "height": height,
         "base": base,
-        "hypotenuse": hypotenuse = math.sqrt(base ** 2 + height ** 2),
-        "aspect": None,
+        "hypotenuse": calculate_hypotenuse(base, height),
+        "aspect": calculate_aspect(base, height),
         "units": units,
     }
 
@@ -152,55 +155,66 @@ def tell_me_about_this_right_triangle(facts_dictionary):
     )
 
     facts = pattern.format(**facts_dictionary)
-
+    if facts_dictionary["aspect"] == "tall":
+        return facts + tall.format(**facts_dictionary)
+    elif facts_dictionary["aspect"] == "wide":
+        return facts + wide.format(**facts_dictionary)
+    else:
+        return facts + equal.format(**facts_dictionary)
 
 def triangle_master(base, height, return_diagram=False, return_dictionary=False):
+    dictionary_of_triange_facts = get_triangle_facts(base, height, units="mm")
+    diagram = tell_me_about_this_right_triangle(dictionary_of_triange_facts)
     if return_diagram and return_dictionary:
-        return None
+        return {"diagram": diagram, "dictionary": dictionary_of_triange_facts}
     elif return_diagram:
-        return None
+        return diagram
     elif return_dictionary:
-        return None
+        return dictionary_of_triange_facts
     else:
         print("You're an odd one, you don't want anything!")
 
 
-def wordy_pyramid(api_key):
+
+def wordy_pyramid():
     import requests
 
-    baseURL = (
-        "http://api.wordnik.com/v4/words.json/randomWords?"
-        "api_key={api_key}"
-        "&minLength={length}"
-        "&maxLength={length}"
-        "&limit=1"
-    )
-    pyramid_list = []
-    for i in range(3, 21, 2):
-        url = baseURL.format(api_key="", length=i)
-        r = requests.get(url)
-        if r.status_code is 200:
-            message = r.json()[0]["word"]
-            pyramid_list.append(message)
-        else:
-            print("failed a request", r.status_code, i)
-    for i in range(20, 3, -2):
-        url = baseURL.format(api_key="", length=i)
-        r = requests.get(url)
-        if r.status_code is 200:
-            message = r.json()[0]["word"]
-            pyramid_list.append(message)
-        else:
-            print("failed a request", r.status_code, i)
-    return pyramid_list
+    lengths = [up for up in range(3, 21, 2)] + [down for down in range(20, 3, -2)]
+    return list_of_words_with_lengths(lengths)
 
 
 def get_a_word_of_length_n(length):
-    pass
+    import requests
+
+    baseURL = (
+        "https://api.wordnik.com/v4/words.json/randomWords?"
+        "api_key=a2a73e7b926c924fad7001ca3111acd55af2ffabf50eb4ae5"
+        "&minLength={length}"
+        "&maxLength={length}"
+        "&limit=1".format(length=length)
+    )
+
+    r = requests.get(baseURL)
+    try:
+        length = int(length)
+    except ValueError:
+        return None
+
+    if 3 <= length <= 20: 
+        if r.status_code is 200:
+            message = r.json()[0]["word"]
+            return message
 
 
 def list_of_words_with_lengths(list_of_lengths):
-    pass
+    import requests
+    pyramid_list = []
+    url = "https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength={length}"
+    for i in range(0, len(list_of_lengths)):
+        length = list_of_lengths[i]
+        r = requests.get(url.format(length=length))
+        pyramid_list.append(r.text)
+    return pyramid_list 
 
 
 if __name__ == "__main__":
