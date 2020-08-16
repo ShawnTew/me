@@ -1,1 +1,2 @@
 TODO: Reflect on what you learned this week and what is still unclear.
+in week 10 we continued working on data projects and i learned how to make many differnt types of graphs such as lines bars and scatters.

@@ -1,2 +1,2 @@
 ![my face](https://avatars.githubusercontent.com/notionparallax)
-in week 10 we continued working on data projects and i learned how to make many differnt types of graphs such as lines bars and scatters. 
+ 
